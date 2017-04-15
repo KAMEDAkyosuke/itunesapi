@@ -1,7 +1,15 @@
 package country
 
+import (
+	"errors"
+	"fmt"
+)
+
+var ErrConvertFail = errors.New("convert fail")
+
 // see: https://affiliate.itunes.apple.com/resources/documentation/linking-to-the-itunes-music-store/#appendix
 type StorefrontCode uint32
+
 const (
 	DZ StorefrontCode = 143563
 	AO StorefrontCode = 143564
@@ -134,3 +142,12 @@ const (
 	VN StorefrontCode = 143471
 	YE StorefrontCode = 143571
 )
+
+func Convert(i uint32) (StorefrontCode, error) {
+	code := StorefrontCode(i).String()
+	s := fmt.Sprintf("StorefrontCode(%d)", i)
+	if code == s {
+		return 0, ErrConvertFail
+	}
+	return StorefrontCode(i), nil
+}
